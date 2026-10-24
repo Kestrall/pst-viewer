@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PST Viewer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6fde'/%3E%3Cpath d='M7 10h18v12H7z' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M7 10l9 7 9-7' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+
+<!-- Accueil : choix de l'archive -->
+<section id="welcome" class="screen welcome" hidden>
+  <div class="welcome-inner">
+    <div class="hero">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="56" height="56"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M7 10h18v12H7z" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 10l9 7 9-7" fill="none" stroke="#fff" stroke-width="2"/></svg>
+      </div>
+      <h1>Bienvenue dans PST Viewer</h1>
+      <p class="muted">Sélectionnez une archive Outlook <code>.pst</code> pour parcourir ses dossiers, ses mails et son calendrier. Tout reste sur votre ordinateur.</p>
+    </div>
+
+    <div id="recent-block" class="card" hidden>
+      <h2>Archives récentes</h2>
+      <ul id="recent" class="file-list"></ul>
+    </div>
+
+    <div class="card">
+      <h2>Choisir un fichier</h2>
+      <div id="places" class="places"></div>
+      <div class="crumbs-row">
+        <button id="up" class="icon-btn small" title="Dossier parent" aria-label="Dossier parent">↑</button>
+        <div id="crumbs" class="crumbs"></div>
+      </div>
+      <ul id="browser" class="file-list browser"></ul>
+      <form id="path-form" class="path-form">
+        <input id="path-input" type="text" placeholder="…ou collez le chemin complet : /home/moi/archive.pst" autocomplete="off" spellcheck="false">
+        <button class="btn primary" type="submit">Ouvrir</button>
+      </form>
+      <p id="welcome-error" class="error" hidden></p>
+    </div>
+  </div>
+</section>
+
+<!-- Préparation de l'archive -->
+<section id="loading" class="screen loading" hidden>
+  <div class="card loading-card">
+    <div class="spinner" aria-hidden="true"></div>
+    <h2 id="loading-title">Ouverture…</h2>
+    <p id="loading-step" class="muted"></p>
+    <div class="progress"><div id="progress-bar"></div></div>
+    <p class="muted small">La première ouverture extrait et indexe l'archive. Les suivantes sont instantanées.</p>
+    <button id="loading-back" class="btn">Choisir une autre archive</button>
+  </div>
+</section>
+
+<!-- Visionneuse -->
+<div id="app" class="screen app" hidden>
+  <header class="topbar">
+    <button id="toggle-tree" class="icon-btn" title="Dossiers" aria-label="Afficher les dossiers">☰</button>
+    <a href="#/" class="brand" title="Changer d'archive">PST Viewer</a>
+    <span id="archive-name" class="archive-chip"></span>
+    <form id="search-form" class="search" role="search">
+      <input id="search" type="search" placeholder="Rechercher (objet, expéditeur, destinataires, contenu)…" autocomplete="off">
+      <label class="scope"><input type="checkbox" id="search-all" checked> tous les dossiers</label>
+    </form>
+    <a href="#/" class="btn change">Changer d'archive</a>
+  </header>
+
+  <main class="layout">
+    <nav id="tree" class="pane tree" aria-label="Dossiers"></nav>
+
+    <section class="pane list-pane">
+      <div class="list-head">
+        <span id="list-title">Sélectionnez un dossier</span>
+        <span id="list-count" class="muted"></span>
+      </div>
+      <ul id="list" class="list" role="listbox"></ul>
+      <button id="more" class="more" hidden>Charger plus</button>
+    </section>
+
+    <article id="reader" class="pane reader">
+      <div class="empty muted">Aucun message sélectionné</div>
+    </article>
+  </main>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
